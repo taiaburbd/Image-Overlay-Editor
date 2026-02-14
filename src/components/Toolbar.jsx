@@ -206,13 +206,34 @@ function Toolbar({
       <div className="toolbar-section">
         <h3>View</h3>
         <div className="control-group">
-          <button onClick={onZoomIn} style={{ backgroundColor: 'var(--primary)', color: 'white' }}>
+          <button 
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              onZoomIn()
+            }} 
+            style={{ backgroundColor: 'var(--primary)', color: 'white' }}
+          >
             🔍+ Zoom In
           </button>
-          <button onClick={onZoomOut} style={{ backgroundColor: 'var(--primary)', color: 'white' }}>
+          <button 
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              onZoomOut()
+            }} 
+            style={{ backgroundColor: 'var(--primary)', color: 'white' }}
+          >
             🔍- Zoom Out
           </button>
-          <button onClick={onResetZoom} style={{ backgroundColor: 'var(--gray-200)', color: 'var(--gray-900)' }}>
+          <button 
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              onResetZoom()
+            }} 
+            style={{ backgroundColor: 'var(--gray-200)', color: 'var(--gray-900)' }}
+          >
             ↺ Reset Zoom
           </button>
         </div>

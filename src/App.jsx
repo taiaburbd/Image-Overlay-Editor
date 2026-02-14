@@ -87,15 +87,33 @@ function App() {
     }
   }
 
+  const zoomTimeoutRef = useRef(null)
+
   const handleZoom = (direction) => {
+    // Prevent rapid zoom triggers
+    if (zoomTimeoutRef.current) return
+    
     setZoomLevel(prev => {
       const newZoom = direction === 'in' ? prev * 1.2 : prev / 1.2
       return Math.max(0.5, Math.min(3, newZoom))
     })
+    
+    // Lock zoom for 200ms to prevent accidental multiple clicks
+    zoomTimeoutRef.current = setTimeout(() => {
+      zoomTimeoutRef.current = null
+    }, 200)
   }
 
   const handleResetZoom = () => {
+    // Prevent rapid zoom triggers
+    if (zoomTimeoutRef.current) return
+    
     setZoomLevel(1)
+    
+    // Lock zoom for 200ms to prevent accidental multiple clicks
+    zoomTimeoutRef.current = setTimeout(() => {
+      zoomTimeoutRef.current = null
+    }, 200)
   }
 
   const handleLogoOpacityChange = (opacity) => {
