@@ -6,6 +6,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  min-height: 0;
 }
 
 .canvas-container {
@@ -18,6 +19,8 @@
   overflow: auto;
   position: relative;
   cursor: grab;
+  min-height: 0;
+  min-width: 0;
 }
 
 .canvas-container:active {

@@ -18,26 +18,14 @@ function App() {
   const [canvasBackground, setCanvasBackground] = useState('#ffffff')
   const [cropArea, setCropArea] = useState(null)
   const [isCropping, setIsCropping] = useState(false)
-  const scrollPositionRef = useRef(0)
-  
+
   const PRESET_LOGOS = [
     { id: 'blue', name: 'Blue Circle', path: '/logo-blue.svg' },
     { id: 'red', name: 'Red Square', path: '/logo-red.svg' },
     { id: 'green', name: 'Green Triangle', path: '/logo-green.svg' }
   ]
 
-  // Prevent auto-scroll and restore scroll position
-  useEffect(() => {
-    if (backgroundImage) {
-      // Restore scroll position after image loads
-      window.scrollTo(0, scrollPositionRef.current)
-    }
-  }, [backgroundImage])
-
   const handleImageUpload = (event) => {
-    // Save current scroll position
-    scrollPositionRef.current = window.scrollY || window.pageYOffset
-    
     const file = event.target.files[0]
     if (file) {
       const reader = new FileReader()
@@ -52,11 +40,6 @@ function App() {
         img.src = e.target.result
       }
       reader.readAsDataURL(file)
-    }
-    
-    // Blur the input to prevent focus-related scroll
-    if (event.target) {
-      event.target.blur()
     }
   }
 
@@ -114,6 +97,15 @@ function App() {
     zoomTimeoutRef.current = setTimeout(() => {
       zoomTimeoutRef.current = null
     }, 200)
+  }
+
+  const handleResetImage = () => {
+    setBackgroundImage(null)
+    setImageDimensions({ width: 0, height: 0 })
+    setLogoPosition({ x: 50, y: 50 })
+    setZoomLevel(1)
+    setCropArea(null)
+    setIsCropping(false)
   }
 
   const handleLogoOpacityChange = (opacity) => {
@@ -203,6 +195,7 @@ function App() {
             onZoomIn={() => handleZoom('in')}
             onZoomOut={() => handleZoom('out')}
             onResetZoom={handleResetZoom}
+            onResetImage={handleResetImage}
             zoomLevel={zoomLevel}
             logoConfig={logoConfig}
             onOpacityChange={handleLogoOpacityChange}

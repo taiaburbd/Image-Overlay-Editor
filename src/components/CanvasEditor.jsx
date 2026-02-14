@@ -46,9 +46,16 @@ function CanvasEditor({
         const rect = stageContainerRef.current.getBoundingClientRect()
         const newWidth = Math.max(300, rect.width)
         const newHeight = Math.max(300, rect.height)
-        setStageSize({
-          width: newWidth,
-          height: newHeight
+        
+        // Only update if size actually changed significantly
+        setStageSize(prevSize => {
+          if (Math.abs(prevSize.width - newWidth) > 5 || Math.abs(prevSize.height - newHeight) > 5) {
+            return {
+              width: newWidth,
+              height: newHeight
+            }
+          }
+          return prevSize
         })
       }
     }

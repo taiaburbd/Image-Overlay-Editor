@@ -9,6 +9,7 @@ function Toolbar({
   onZoomIn,
   onZoomOut,
   onResetZoom,
+  onResetImage,
   zoomLevel,
   logoConfig,
   onOpacityChange,
@@ -241,6 +242,21 @@ function Toolbar({
           Zoom: {(zoomLevel * 100).toFixed(0)}%
         </div>
       </div>
+
+      {hasImage && (
+        <div className="toolbar-section">
+          <button 
+            onClick={onResetImage}
+            style={{ 
+              backgroundColor: 'var(--danger)', 
+              color: 'white',
+              width: '100%'
+            }}
+          >
+            🔄 Reset Image
+          </button>
+        </div>
+      )}
 
       {hasImage && (
         <div className="toolbar-section">
