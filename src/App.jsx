@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import CanvasEditor from './components/CanvasEditor'
 import Toolbar from './components/Toolbar'
 import './App.css'
@@ -18,6 +18,7 @@ function App() {
   const [canvasBackground, setCanvasBackground] = useState('#ffffff')
   const [cropArea, setCropArea] = useState(null)
   const [isCropping, setIsCropping] = useState(false)
+  const scrollPositionRef = useRef(0)
   
   const PRESET_LOGOS = [
     { id: 'blue', name: 'Blue Circle', path: '/logo-blue.svg' },
@@ -25,7 +26,18 @@ function App() {
     { id: 'green', name: 'Green Triangle', path: '/logo-green.svg' }
   ]
 
+  // Prevent auto-scroll and restore scroll position
+  useEffect(() => {
+    if (backgroundImage) {
+      // Restore scroll position after image loads
+      window.scrollTo(0, scrollPositionRef.current)
+    }
+  }, [backgroundImage])
+
   const handleImageUpload = (event) => {
+    // Save current scroll position
+    scrollPositionRef.current = window.scrollY || window.pageYOffset
+    
     const file = event.target.files[0]
     if (file) {
       const reader = new FileReader()
@@ -40,6 +52,11 @@ function App() {
         img.src = e.target.result
       }
       reader.readAsDataURL(file)
+    }
+    
+    // Blur the input to prevent focus-related scroll
+    if (event.target) {
+      event.target.blur()
     }
   }
 
